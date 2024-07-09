@@ -23,6 +23,8 @@ import java.util.Optional;
 public class UserController
 {
 
+    //שינויים של שמחה
+
  //  @Autowired
  //  private final UserService userService;
  //  @Autowired
@@ -94,6 +96,76 @@ public class UserController
  //      return ResponseEntity.ok("User registered successfully!");
  //  }
 
+
+//שינויים של מיכל
+
+//    private final UserService userService;
+//    private final JwtUtills jwtUtils;
+//    private final AuthenticationManager authenticationManager;
+//
+//    @GetMapping("/")
+//    public String get() {
+//        return "hello";
+//    }
+//
+//    @GetMapping("/users")
+//    public ResponseEntity<List<UserEntity>> getAllUsers() {
+//        return userService.getUsers();
+//    }
+//
+//    @GetMapping("/users/{role}")
+//    public List<UserEntity> getUsersByRole(@PathVariable String role) {
+//        return userService.getUsersByRole(role);
+//    }
+//    @GetMapping("/users/{id}")
+//    public UserEntity getUsersById(@PathVariable String id) {
+//        return userService.getUserById(id);
+//    }
+//
+//    @PostMapping("/users/{role}")
+//    public UserEntity addUser(@PathVariable String role, @RequestBody UserEntity user) {
+//        System.out.println("Adding user with role & email: " + role + " " + user.getEmail());
+//        return userService.addUser(user.getEmail(),role);
+//    }
+//
+//    @DeleteMapping("/users/{email}")
+//    public ResponseEntity<Void> removeUserPermission(@PathVariable String email) {
+//        System.out.println("Removing user with email: " + email);
+//        userService.deleteUser(email);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody UserLoginDTO userLoginDTO) {
+//        System.out.println("Login attempt for user: " + userLoginDTO.getEmail());
+//        UserDetails userDetails = userService.loadUserByUsername(userLoginDTO.getEmail());
+//
+//        if (userDetails != null) {
+//            if (userService.validatePassword(userLoginDTO.getPassword(), userDetails.getPassword())) {
+//                try {
+//                    authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginDTO.getEmail(), userLoginDTO.getPassword()));
+//                    final UserDetails authenticatedUser = userService.loadUserByUsername(userLoginDTO.getEmail());
+//                    String token = jwtUtils.generateToken(authenticatedUser);
+//                    return ResponseEntity.ok(token);
+//                } catch (Exception e) {
+//                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//                }
+//            } else {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//            }
+//        } else {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//        }
+//    }
+//
+//    @PostMapping("/register")
+//    public ResponseEntity<String> register(@RequestBody UserEntity user) {
+//        userService.saveUser(user);
+//        return ResponseEntity.ok("User registered successfully!");
+//    }
+
+
+    //(הוספתי את הפונקציות: createUser, changeUserPermission, updateUser, deleteUser)שינויים של שמחה - המעודכן
     private final UserService userService;
     private final JwtUtills jwtUtils;
     private final AuthenticationManager authenticationManager;
@@ -117,16 +189,35 @@ public class UserController
         return userService.getUserById(id);
     }
 
-    @PostMapping("/users/{role}")
-    public UserEntity addUser(@PathVariable String role, @RequestBody UserEntity user) {
-        System.out.println("Adding user with role & email: " + role + " " + user.getEmail());
-        return userService.addUser(user.getEmail(),role);
+    @PostMapping("/users/addUser")
+    public UserEntity addUser(@RequestBody UserEntity user) {
+        System.out.println("Create user with role & email: " + user.getRole() + " " + user.getEmail());
+        return userService.addUser(user);
     }
 
-    @DeleteMapping("/users/{email}")
-    public ResponseEntity<Void> removeUserPermission(@PathVariable String email) {
-        System.out.println("Removing user with email: " + email);
-        userService.deleteUser(email);
+    @PostMapping("/users/changeUserPermission")
+    public UserEntity changeUserPermission(@RequestParam String email, @RequestParam String role) {
+        System.out.println("Change user permission with email: " + email +" to role " +role);
+        return userService.changeUserPermission(email, role);
+    }
+
+    @PutMapping("/users/updateUser")
+    public UserEntity updateUser(@RequestBody UserEntity user) {
+        System.out.println("Update user with email: " + user.getEmail());
+        return userService.updateUser(user);
+    }
+
+    @DeleteMapping("users/deleteUser")
+    public ResponseEntity<Void> deleteUserByEmail(@RequestParam String email) {
+        System.out.println("Delete user with email: " + email);
+        userService.deleteUserByEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/users/{courseId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String courseId) {
+        System.out.println("Delete user from " + courseId);
+        userService.deleteUser(courseId);
         return ResponseEntity.ok().build();
     }
 
