@@ -1,14 +1,20 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-slim
 
-# Set the working directory
+FROM maven:3.8.6-openjdk-17 AS build
+
 WORKDIR /app
 
-# Copy the built JAR file from the target directory to the container
-COPY target/user-login-0.0.1-SNAPSHOT.jar /app/user-login.jar
+COPY . .
 
-# Expose the port the application runs on
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/target/user-login-0.0.1-SNAPSHOT.jar /app/user-login.jar
+
 EXPOSE 8080
 
-# Run the JAR file
 ENTRYPOINT ["java", "-jar", "/app/user-login.jar"]
+
+
