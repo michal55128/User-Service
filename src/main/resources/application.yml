@@ -1,18 +1,41 @@
 
 
 
+# server:
+#   port: 8080
+
+# external-apis:
+#   users:
+#     urls:
+#       host: http://localhost:8070
+#       paths:
+#         getUsers: "/api/getUsers"
+#         getUserById: "/api/getUserById"
+#         getUsersByRole: "/api/getUsersByRole"
+#         addUser: "/api/addUser"
+#         updateUser: "/api/updateUser"
+#         deleteUser: "/api/deleteUser"
+#         getUserByEmail: "/api/getUserByEmail"
+
+
+
+
+
+
+
 server:
   port: 8080
 
 external-apis:
   users:
     urls:
-      host: http://localhost:8070
+      host: https://old-seminar-2-back-4hjd.onrender.com
       paths:
-        getUsers: "/api/getUsers"
-        getUserById: "/api/getUserById"
-        getUsersByRole: "/api/getUsersByRole"
-        addUser: "/api/addUser"
-        updateUser: "/api/updateUser"
-        deleteUser: "/api/deleteUser"
-        getUserByEmail: "/api/getUserByEmail"
+        getUsers: /api/users/all
+        getUserById: /api/users/{userId}
+        getUsersByRole: /api/users?role={role}
+        addUser: /api/users
+        updateUser: /api/users/{userId}
+        deleteUser: /api/users/{userId}
+        getUserByEmail: /api/users?email={email}
+
