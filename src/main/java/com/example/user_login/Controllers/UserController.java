@@ -172,7 +172,7 @@ public class UserController
 
     @GetMapping("/")
     public String get() {
-        return "hello";
+        return "hello !!!";
     }
 
     @GetMapping("/users")
