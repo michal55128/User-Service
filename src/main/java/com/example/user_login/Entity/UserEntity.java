@@ -12,22 +12,11 @@ public class UserEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private int id;
 
-//        (nullable = false)
         @Column
         private String password;
 
         @Column(nullable = true)
-        private String role;
+        private Role role;
 
         @Column(unique = true, nullable = false)
         private String email;
-
-
-
-    //   public  UserEntity(){}
-//
-//        @Column(nullable = true)
-//        @Enumerated(EnumType.STRING)
-//        private Role role;
-
-}
